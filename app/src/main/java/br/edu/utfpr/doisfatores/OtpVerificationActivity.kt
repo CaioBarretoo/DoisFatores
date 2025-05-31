@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.utfpr.doisfatores.databinding.OtpVerificationActivityBinding
@@ -20,6 +21,7 @@ import java.io.IOException
 class OtpVerificationActivity : AppCompatActivity() {
 
     private lateinit var binding: OtpVerificationActivityBinding
+    private lateinit var tvOtpMessage: TextView
 
 
     private var receivedPhoneNumber: String? = null
@@ -40,6 +42,10 @@ class OtpVerificationActivity : AppCompatActivity() {
         ApiKeys.loadSecrets(applicationContext)
 
         receivedPhoneNumber = intent.getStringExtra(EXTRA_PHONE_NUMBER)
+
+        tvOtpMessage = findViewById(R.id.tvOtpMessage)
+        val finalPhoneNumber = receivedPhoneNumber?.takeLast(4)
+        tvOtpMessage.text = "Foi enviado um código de verificação para o número de telefone com final $finalPhoneNumber"
 
         binding.btnVerifyCode.setOnClickListener {
             val otpCode = binding.etOtpCode.text.toString().trim()
